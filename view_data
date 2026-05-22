@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registered Users</title>
+    <style>
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin: 20px auto;
+            font-family: Arial, sans-serif;
+        }
+        th, td {
+            border: 1px solid #689dcf;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #06353b;
+        }
+        tr:nth-child(even) {
+            background-color: #c7c427;
+        }
+        h2 {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+<style>
+        body {
+            /* Sets the background color */
+           /* background-color: #e985dc */
+
+            background-image: url('uni.jpg');
+            background-size: 100% auto;
+            /* Sets the text color so it's readable */
+            /*color: #010a01; */
+            /*font-family: Arial, sans-serif;
+            padding: 20px;*/
+        }
+    </style>
+    <h2>Registered Users List</h2>
+
+    <?php
+    // 1. Connect to the database (using the corrected empty password "")
+    $con = mysqli_connect("localhost", "root", "", "users");
+
+    // Check connection
+    if (!$con) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+
+    // 2. Write the SQL query to fetch data from your 'mydata' table
+    $query = "SELECT id,name, email, password FROM mydata";
+    $result = mysqli_query($con, $query);
+
+    // 3. Check if there are rows in the table
+    if (mysqli_num_rows($result) > 0) {
+        echo "<table>";
+        echo "<tr><th>ID</th><th>Name</th><th>Email</th><th>Password</th></tr>";
+
+        // 4. Loop through each row and output the data into HTML table rows
+        while($row = mysqli_fetch_assoc($result)) {
+            echo "<tr>";
+            echo "<td>" . htmlspecialchars($row['id']) . "</td>";
+            echo "<td>" . htmlspecialchars($row['name']) . "</td>";
+            echo "<td>" . htmlspecialchars($row['email']) . "</td>";
+            echo "<td>" . htmlspecialchars($row['password']) . "</td>";
+            echo "</tr>";
+        }
+        echo "</table>";
+    } else {
+        echo "<p style='text-align:center;'>No data found in the database.</p>";
+    }
+
+    // Close the connection
+    mysqli_close($con);
+    ?>
+   
+</body>
+</html>
